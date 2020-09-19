@@ -20,7 +20,6 @@ For build prereqs, see [the VM setup instructions](https://web.stanford.edu/clas
 
 ## Course materials
 
-
 ### Handouts, assignments and labs
 
 The handouts for fall 2019 can be found here
@@ -41,7 +40,7 @@ and youtube.
 On my local machine (ubuntu 20.04), I had to install the following 
 packages to get `cmake ..` to run correctly.
 
-    $ apt install cmake doxygen graphviz libpcap-dev
+    $ apt install cmake doxygen graphviz libpcap-dev clang-format
 
 
 To set up your build directory:
