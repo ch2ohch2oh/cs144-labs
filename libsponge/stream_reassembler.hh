@@ -9,12 +9,43 @@
 #include <map>
 #include <set>
 #include <string>
-class typeUnassembled {
+#include <vector>
+
+using std::string;
+using std::vector;
+
+class StreamSegment {
+  private:
+    size_t _index;
+    string _data;
+    bool _eof;
   public:
-    size_t index;
-    std::string data;
-    typeUnassembled(size_t _index, std::string _data) : index(_index), data(_data) {}
-    bool operator<(const typeUnassembled &t1) const { return index < t1.index; }
+    StreamSegment(size_t index, const string &data, bool eof);
+    // start index (inclusive)
+    size_t start() const {return _index;}
+    // end index (exclusive)
+    size_t end() const {return _index + _data.length();}
+    // segment size
+    size_t size() const { return _data.length(); }
+    const string & data() const {return _data;}
+    // Check if the current segment overlaps with another segment
+    bool has_overlap(const StreamSegment & another);
+    // Merge two overlapping segments
+    StreamSegment merge(const StreamSegment & another);
+    bool eof() const { return _eof; }
+};
+
+class SegmentBuffer {
+  private:
+    vector<StreamSegment> _segments;  //!< An ordered list of stream segments. No overlap.  
+  public:
+    SegmentBuffer(): _segments() {}
+    size_t unassembled_bytes() const;
+    const StreamSegment & peek() const { return _segments.at(0);}
+    void pop() { _segments.erase(_segments.begin(), _segments.begin() + 1); }
+    void add(const StreamSegment & segment);
+    bool empty() const { return _segments.empty(); }
+
 };
 
 //! \brief A class that assembles a series of excerpts from a byte stream (possibly out of order,
@@ -22,11 +53,11 @@ class typeUnassembled {
 class StreamReassembler {
   private:
     // Your code here -- add private members as necessary.
-    ByteStream _output;  //!< The reassembled in-order byte stream
-    std::set<typeUnassembled> _Unassembled;
-    size_t _firstUnassembled;
-    size_t _nUnassembled;
-    size_t _capacity;  //!< The maximum number of bytes
+    ByteStream _output;         //!< The reassembled in-order byte stream
+    size_t _capacity;           //!< The maximum number of bytes
+    size_t _unassembled_bytes;  //!< Number of unassembled bytes
+    size_t _next_byte;          //!< The index of the next byte to be assembled
+    SegmentBuffer _buff;
     bool _eof;
 
   public:
@@ -47,9 +78,6 @@ class StreamReassembler {
     //! \param eof whether or not this segment ends with the end of the stream
     void push_substring(const std::string &data, const uint64_t index, const bool eof);
 
-    // 合并两个_Unassembled的子串，利用iter2更新index和data信息，并删除iter2
-    int merge_substring(size_t &index, std::string &data, std::set<typeUnassembled>::iterator iter2);
-
     //! \name Access the reassembled byte stream
     //!@{
     const ByteStream &stream_out() const { return _output; }
@@ -61,7 +89,6 @@ class StreamReassembler {
     //! \note If the byte at a particular index has been submitted twice, it
     //! should only be counted once for the purpose of this function.
     size_t unassembled_bytes() const;
-    size_t first_unassembled_byte() const { return _firstUnassembled; }
     bool eof() const { return _eof; }
 
     //! \brief Is the internal state empty (other than the output stream)?
