@@ -18,7 +18,31 @@ Pass all the tests of Lab 0-4
 
 For build prereqs, see [the VM setup instructions](https://web.stanford.edu/class/cs144/vm_howto).
 
+## Course materials
+
+
+### Handouts, assignments and labs
+
+The handouts for fall 2019 can be found here
+[here](https://github.com/ch2ohch2oh/cs144.github.io/tree/96579e7f63b6ea67164e3dca0735de83a523a240). It is a good idea to
+make a fork of the official course repo as no one knows when
+the instructors decide to take it down. Since the repo now 
+is public, your fork will still be there even if the original
+repo is deleted or made private. 
+
+### Video lectures
+
+The videolectures can be found on 
+[bilibili](https://www.bilibili.com/video/BV137411Z7LR)
+and youtube.
+
 ## Sponge quickstart
+
+On my local machine (ubuntu 20.04), I had to install the following 
+packages to get `cmake ..` to run correctly.
+
+    $ apt install cmake doxygen graphviz libpcap-dev
+
 
 To set up your build directory:
 
@@ -97,3 +121,6 @@ To format (you'll need `clang-format`):
 To see all available targets,
 
     $ make help
+
+
+
