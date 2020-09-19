@@ -1,18 +1,24 @@
 Lab 0 Writeup
 =============
 
-My name: [your name here]
+`telnet` can be used to establish a TCP connection to
+a remote host. 
 
-My SUNet ID: [your sunetid here]
+OS: provides functinality to reliable deliver bidirectional 
+in-order byte stream between two programs. This is 
+what TCP does.
 
-This lab took me about [n] hours to do.
+Internet: best effort delivery of internet datagrams.
 
-My secret code from section 2.1 was: [code here]
+There are some guidelines about how to 
+write modern C++ which is mostly safe in the lab0 handout.
 
-- Optional: I had unexpected difficulty with: [describe]
+`webget` is pretty easy. 
 
-- Optional: I think you could make this lab better by: [describe]
+`byte_stream` is not hard either. A `deque<char>` would 
+be enough. There are some places where I did not check
+the boundary but it passed all the tests.
 
-- Optional: I was surprised by: [describe]
-
-- Optional: I'm not sure about: [describe]
+Overall, lab 0 is easy. Setting up the environment would
+take some time thouhgh. It took me about 1~2 hours to
+finish lab 0.
