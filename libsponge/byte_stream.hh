@@ -16,13 +16,13 @@
 class ByteStream {
   private:
     // Your code here -- add private members as necessary.
-    std::deque<char> _stream;
-    size_t _size;
-    size_t _capacity;
-    size_t _nwritten;
-    size_t _nread;
-    bool _input_ended;
-    bool _error{};  //!< Flag indicating that the stream suffered an error.
+    std::deque<char> _stream;     //<! Buffer to hold incoming bytes
+    size_t _size;                 //<! Number of elements in the buffer
+    size_t _capacity;             //<! Max capacity of the buffer (fixed)
+    size_t _nwritten;             //<! Number of bytes written
+    size_t _nread;                //<! Number of bytes read
+    bool _input_ended;            //<! Whether input has ended or not
+    bool _error{};      //!< Flag indicating that the stream suffered an error.
 
   public:
     //! Construct a stream with room for `capacity` bytes.
