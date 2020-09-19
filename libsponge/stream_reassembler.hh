@@ -41,10 +41,11 @@ class SegmentBuffer {
   public:
     SegmentBuffer(): _segments() {}
     size_t unassembled_bytes() const;
-    const StreamSegment & peek() const { return _segments.at(0);}
+    const StreamSegment & peek() const { return _segments[0];}
     void pop() { _segments.erase(_segments.begin(), _segments.begin() + 1); }
     void add(const StreamSegment & segment);
     bool empty() const { return _segments.empty(); }
+    size_t size() const { return _segments.size(); }
 
 };
 
@@ -55,7 +56,6 @@ class StreamReassembler {
     // Your code here -- add private members as necessary.
     ByteStream _output;         //!< The reassembled in-order byte stream
     size_t _capacity;           //!< The maximum number of bytes
-    size_t _unassembled_bytes;  //!< Number of unassembled bytes
     size_t _next_byte;          //!< The index of the next byte to be assembled
     SegmentBuffer _buff;
     bool _eof;
