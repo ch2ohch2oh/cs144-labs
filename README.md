@@ -1,20 +1,16 @@
 - [x] Lab 0: networking warmup
 
-- [x] Lab 1: stitching substrings into a byte stream
+- [ ] Lab 1: stitching substrings into a byte stream
 
-- [x] Lab 2: the TCP receiver
+- [ ] Lab 2: the TCP receiver
 
-- [x] Lab 3: the TCP sender
+- [ ] Lab 3: the TCP sender
 
-- [x] Lab 4: the TCP connection
+- [ ] Lab 4: the TCP connection
 
 - [ ] Lab 5: the network interface
 
 - [ ] Lab 6: the IP router 
-
-Pass all the tests of Lab 0-4
-
-[My notes](https://github.com/huangrt01/CS-Notes/blob/master/Notes/Output/Computer-Networking-Lab-CS144-Stanford.md)
 
 For build prereqs, see [the VM setup instructions](https://web.stanford.edu/class/cs144/vm_howto).
 
@@ -23,7 +19,8 @@ For build prereqs, see [the VM setup instructions](https://web.stanford.edu/clas
 ### Handouts, assignments and labs
 
 The handouts for fall 2019 can be found here
-[here](https://github.com/ch2ohch2oh/cs144.github.io/tree/96579e7f63b6ea67164e3dca0735de83a523a240). It is a good idea to
+[here](https://github.com/ch2ohch2oh/cs144.github.io/tree/96579e7f63b6ea67164e3dca0735de83a523a240). 
+It is a good idea to
 make a fork of the official course repo as no one knows when
 the instructors decide to take it down. Since the repo now 
 is public, your fork will still be there even if the original
