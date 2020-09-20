@@ -2,7 +2,7 @@
 
 - [x] Lab 1: stitching substrings into a byte stream (~5 hours)
 
-- [ ] Lab 2: the TCP receiver
+- [x] Lab 2: the TCP receiver (~4 hours)
 
 - [ ] Lab 3: the TCP sender
 
