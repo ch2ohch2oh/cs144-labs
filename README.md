@@ -1,6 +1,6 @@
-- [x] Lab 0: networking warmup
+- [x] Lab 0: networking warmup (~2 hours)
 
-- [ ] Lab 1: stitching substrings into a byte stream
+- [x] Lab 1: stitching substrings into a byte stream (~5 hours)
 
 - [ ] Lab 2: the TCP receiver
 
@@ -28,14 +28,14 @@ repo is deleted or made private.
 
 ### Video lectures
 
-The videolectures can be found on 
+The video lectures can be found on 
 [bilibili](https://www.bilibili.com/video/BV137411Z7LR)
 and youtube.
 
 ## Sponge quickstart
 
 On my local machine (ubuntu 20.04), I had to install the following 
-packages to get `cmake ..` to run correctly.
+packages.
 
     $ apt install cmake doxygen graphviz libpcap-dev clang-format
 
