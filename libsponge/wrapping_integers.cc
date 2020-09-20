@@ -31,7 +31,7 @@ uint64_t unwrap(WrappingInt32 n, WrappingInt32 isn, uint64_t checkpoint) {
     WrappingInt32 chk = wrap(checkpoint, isn);
     int64_t shift = static_cast<int64_t>(1) << 32;
     int64_t abs_seq = checkpoint + (n - chk);
-    if(abs_seq >= 0) {
+    if (abs_seq >= 0) {
         return static_cast<uint64_t>(abs_seq);
     } else {
         return static_cast<uint64_t>(abs_seq + shift);

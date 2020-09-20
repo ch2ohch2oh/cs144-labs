@@ -21,7 +21,7 @@ ByteStream::ByteStream(const size_t capacity)
 
 size_t ByteStream::write(const string &data) {
     size_t count = 0;
-    for(size_t i=0; i<data.length() && remaining_capacity() > 0; i++) {
+    for (size_t i = 0; i < data.length() && remaining_capacity() > 0; i++) {
         _stream.push_back(data[i]);
         count++;
         _size++;
@@ -44,9 +44,7 @@ void ByteStream::pop_output(const size_t len) {
     _size -= len;
 }
 
-void ByteStream::end_input() {
-    _input_ended = true;
-}
+void ByteStream::end_input() { _input_ended = true; }
 
 bool ByteStream::input_ended() const { return _input_ended; }
 

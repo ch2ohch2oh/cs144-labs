@@ -19,34 +19,34 @@ class StreamSegment {
     size_t _index;
     string _data;
     bool _eof;
+
   public:
     StreamSegment(size_t index, const string &data, bool eof);
     // start index (inclusive)
-    size_t start() const {return _index;}
+    size_t start() const { return _index; }
     // end index (exclusive)
-    size_t end() const {return _index + _data.length();}
+    size_t end() const { return _index + _data.length(); }
     // segment size
     size_t size() const { return _data.length(); }
-    const string & data() const {return _data;}
+    const string &data() const { return _data; }
     // Check if the current segment overlaps with another segment
-    bool has_overlap(const StreamSegment & another);
+    bool has_overlap(const StreamSegment &another);
     // Merge two overlapping segments
-    StreamSegment merge(const StreamSegment & another);
+    StreamSegment merge(const StreamSegment &another);
     bool eof() const { return _eof; }
 };
 
 class SegmentBuffer {
   private:
-    vector<StreamSegment> _segments;  //!< An ordered list of stream segments. No overlap.  
+    vector<StreamSegment> _segments;  //!< An ordered list of stream segments. No overlap.
   public:
-    SegmentBuffer(): _segments() {}
+    SegmentBuffer() : _segments() {}
     size_t unassembled_bytes() const;
-    const StreamSegment & peek() const { return _segments[0];}
+    const StreamSegment &peek() const { return _segments[0]; }
     void pop() { _segments.erase(_segments.begin(), _segments.begin() + 1); }
-    void add(const StreamSegment & segment);
+    void add(const StreamSegment &segment);
     bool empty() const { return _segments.empty(); }
     size_t size() const { return _segments.size(); }
-
 };
 
 //! \brief A class that assembles a series of excerpts from a byte stream (possibly out of order,
@@ -54,9 +54,9 @@ class SegmentBuffer {
 class StreamReassembler {
   private:
     // Your code here -- add private members as necessary.
-    ByteStream _output;         //!< The reassembled in-order byte stream
-    size_t _capacity;           //!< The maximum number of bytes
-    size_t _next_byte;          //!< The index of the next byte to be assembled
+    ByteStream _output;  //!< The reassembled in-order byte stream
+    size_t _capacity;    //!< The maximum number of bytes
+    size_t _next_byte;   //!< The index of the next byte to be assembled
     SegmentBuffer _buff;
     bool _eof;
 
