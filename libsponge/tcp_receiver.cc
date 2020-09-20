@@ -11,10 +11,60 @@ void DUMMY_CODE(Targs &&... /* unused */) {}
 using namespace std;
 
 bool TCPReceiver::segment_received(const TCPSegment &seg) {
-    DUMMY_CODE(seg);
-    return {};
+    const TCPHeader & header = seg.header();
+    bool eof = false;
+    size_t padding = 1;
+    if(header.syn && !_isn.has_value()) {
+        _isn = header.seqno;
+        _ack = header.seqno;
+        _checkpoint = _isn.value().raw_value();
+        padding -= 1;
+    }
+
+    // Conncetion has not started yet
+    if(!_isn.has_value()) {
+        return false;
+    }
+
+    uint64_t low = unwrap(_ack, _isn.value(), _checkpoint);
+    uint64_t index = unwrap(header.seqno, _isn.value(), _checkpoint);
+    uint64_t high = max(window_size(), size_t(1)) + low;
+    
+    std::cout << "ack=" << _ack 
+        << " isn=" << _isn.value() 
+        << " seqno=" << header.seqno
+        << " window_size=" << window_size() 
+        << " checkpoint=" << _checkpoint
+        << " low=" << low 
+        << " index=" << index 
+        << " high=" << high << std::endl;
+    std::cout << seg.header().summary() << std::endl;
+
+    if(index + max(size_t(1), seg.length_in_sequence_space()) <= low || index >= high) {
+        std::cout << "Outside the window" << std::endl;
+        return false;
+    }
+
+    if(header.fin) {
+        eof = true;
+    }
+
+    _reassembler.push_substring(seg.payload().copy(), index - padding, eof);
+    _ack = wrap(stream_out().bytes_written() + 1 + (eof ? 1 : 0), _isn.value());
+    
+    // size_t padding = 1;
+    return true;
 }
 
-optional<WrappingInt32> TCPReceiver::ackno() const { return {}; }
+std::optional<WrappingInt32> TCPReceiver::ackno() const {
+    if(_isn.has_value()) {
+        return {_ack};
+    } else {
+        return {};
+    }
+}
 
-size_t TCPReceiver::window_size() const { return {}; }
+size_t TCPReceiver::window_size() const { 
+    // Implement with public methods when possible
+    return stream_out().remaining_capacity(); 
+}
