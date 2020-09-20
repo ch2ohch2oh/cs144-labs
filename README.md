@@ -102,6 +102,10 @@ To generate documentation (you'll need `doxygen`; output will be in `build/doc/`
 
     $ make doc
 
+To view the generated docs:
+
+    $ python3 -m http.server --directory doc/html
+
 To lint (you'll need `clang-tidy`):
 
     $ make -j$(nproc) tidy
