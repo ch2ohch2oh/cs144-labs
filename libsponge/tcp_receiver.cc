@@ -17,8 +17,10 @@ bool TCPReceiver::segment_received(const TCPSegment &seg) {
     if(header.syn && !_isn.has_value()) {
         _isn = header.seqno;
         _ack = header.seqno;
-        _checkpoint = _isn.value().raw_value();
-        padding -= 1;
+        // Initial checkpoint should be zero
+        // Took me many ours to find this bug
+        _checkpoint = 0;
+        padding = 0;
     }
 
     // Conncetion has not started yet
@@ -30,26 +32,29 @@ bool TCPReceiver::segment_received(const TCPSegment &seg) {
     uint64_t index = unwrap(header.seqno, _isn.value(), _checkpoint);
     uint64_t high = max(window_size(), size_t(1)) + low;
     
-    std::cout << "ack=" << _ack 
-        << " isn=" << _isn.value() 
-        << " seqno=" << header.seqno
-        << " window_size=" << window_size() 
-        << " checkpoint=" << _checkpoint
-        << " low=" << low 
-        << " index=" << index 
-        << " high=" << high << std::endl;
+    // std::cout << "ack=" << _ack 
+    //     << " isn=" << _isn.value() 
+    //     << " seqno=" << header.seqno
+    //     << " window_size=" << window_size() 
+    //     << " checkpoint=" << _checkpoint
+    //     << " low=" << low 
+    //     << " index=" << index 
+    //     << " high=" << high << std::endl;
+
+    _checkpoint = index;
     std::cout << seg.header().summary() << std::endl;
 
     if(index + max(size_t(1), seg.length_in_sequence_space()) <= low || index >= high) {
-        std::cout << "Outside the window" << std::endl;
+        // std::cout << "Outside the window" << std::endl;
         return false;
     }
 
     if(header.fin) {
         eof = true;
     }
-
+    std::cout << index - padding << std::endl;
     _reassembler.push_substring(seg.payload().copy(), index - padding, eof);
+    // std::cout << "bytes_written=" << stream_out().bytes_written() << std:: endl;
     _ack = wrap(stream_out().bytes_written() + 1 + (eof ? 1 : 0), _isn.value());
     
     // size_t padding = 1;
